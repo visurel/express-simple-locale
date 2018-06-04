@@ -8,11 +8,15 @@ function getSupportedLocale (options) {
 
   return function (locale) {
     var shortLocale = shortenLocale(locale)
-    var isSupported = _isLocaleSupported(shortLocale)
     var defaultLocale = get(options, 'defaultLocale', FALLBACK_LOCALE)
-    var shortDefaultLocale = shortenLocale(defaultLocale)
 
-    return isSupported ? shortLocale : shortDefaultLocale
+    if (_isLocaleSupported(locale)) {
+      return locale
+    } else if (_isLocaleSupported(shortLocale)) {
+      return shortLocale
+    } else {
+      return defaultLocale
+    }
   }
 }
 
