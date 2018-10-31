@@ -1,14 +1,11 @@
 var get = require('lodash.get')
 
-function getAcceptedLanguage (request) {
-  if (!request || typeof request.get !== 'function') {
+function getAcceptedLanguage (request, languages) {
+  if (!request || typeof request.acceptsLanguages !== 'function') {
     return
   }
 
-  var header = request.get('accept-language') || ''
-  var acceptedLanguages = header.split(';')
-
-  return acceptedLanguages[0]
+  return request.acceptsLanguages(languages);
 }
 
 function getQueryFromRequest (request) {
@@ -34,7 +31,7 @@ function getLocaleFromRequest (options) {
     var locale = (
       queryParams.reduce(getQueryFromRequest(request), null) ||
       get(request, ['cookies', cookieName]) ||
-      getAcceptedLanguage(request) ||
+      getAcceptedLanguage(request, get(options, 'supportedLocales')) ||
       get(request, 'acceptedLanguages') ||
       get(request, 'hostname.locale')
     )

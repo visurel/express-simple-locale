@@ -30,6 +30,7 @@
     "standard": "^11.0.1"
   },
   "dependencies": {
+    "accept-language": "^3.0.18",
     "lodash.get": "^4.4.2"
   },
   "standard": {
